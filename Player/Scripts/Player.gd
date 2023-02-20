@@ -2,7 +2,9 @@ extends KinematicBody2D
 
 
 # Declare member constants here.
-const MAX_VELOCITY = 100
+const MAX_SPEED:int = 100
+const ACCELARATION:int = 400
+const FRICTION:int = 400
 
 
 # Declare member variables here. Examples:
@@ -15,7 +17,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
+func _process(delta):
 	var input_vector:Vector2
 
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
@@ -23,9 +25,9 @@ func _process(_delta):
 	input_vector = input_vector.normalized()
 
 	if input_vector != Vector2.ZERO:
-		velocity = velocity.move_toward(MAX_VELOCITY * input_vector, 25.0)
+		velocity += input_vector * ACCELARATION * delta
+		velocity = velocity.clamped(MAX_SPEED)
 	else:
-		velocity = velocity.move_toward(Vector2.ZERO, 25)
+		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 
 	velocity = move_and_slide(velocity)
-	pass

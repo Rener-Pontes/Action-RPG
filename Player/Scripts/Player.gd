@@ -11,11 +11,13 @@ const FRICTION:int = 500
 var velocity:Vector2 = Vector2.ZERO
 
 onready var animationPlayer:AnimationPlayer = $AnimationPlayer
+onready var animationTree:AnimationTree = $AnimationTree
+onready var animationState = animationTree.get("parameters/playback")
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
+	animationTree.active = true
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -28,12 +30,14 @@ func _process(delta):
 
 	if input_vector != Vector2.ZERO:
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELARATION * delta)
-		if input_vector.y < 0:
-			animationPlayer.play("RunUp")
-		else:
-			animationPlayer.play("RunDown")
+		
+		animationTree.set("parameters/Idle/blend_position", input_vector)
+		animationTree.set("parameters/Run/blend_position", input_vector)
+		
+		animationState.travel("Run")
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
-		animationPlayer.play("IdleDown")
+		
+		animationState.travel("Idle")
 
 	velocity = move_and_slide(velocity)

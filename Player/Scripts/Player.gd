@@ -2,16 +2,24 @@ extends KinematicBody2D
 
 
 # Declare member constants here.
-const MAX_SPEED:int = 100
-const ACCELARATION:int = 500 
-const FRICTION:int = 500
+const MAX_SPEED = 100
+const ACCELARATION = 500 
+const FRICTION = 500
+
+
+enum {
+	MOVE,
+	ROLL,
+	ATTACK
+}
 
 
 # Declare member variables here. Examples:
-var velocity:Vector2 = Vector2.ZERO
+var velocity = Vector2.ZERO
+var state = MOVE
 
-onready var animationPlayer:AnimationPlayer = $AnimationPlayer
-onready var animationTree:AnimationTree = $AnimationTree
+onready var animationPlayer = $AnimationPlayer
+onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
 
 
@@ -22,7 +30,17 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	var input_vector:Vector2
+	match (state):
+		MOVE:
+			move_state(delta)
+		ROLL:
+			pass
+		ATTACK:
+			attack_state(delta)
+
+
+func move_state(delta):
+	var input_vector = Vector2.ZERO
 
 	input_vector.x = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	input_vector.y = Input.get_action_strength("ui_down") - Input.get_action_strength("ui_up")
@@ -33,6 +51,7 @@ func _process(delta):
 		
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)
+		animationTree.set("parameters/Attack/blend_position", input_vector)
 		
 		animationState.travel("Run")
 	else:
@@ -41,3 +60,13 @@ func _process(delta):
 		animationState.travel("Idle")
 
 	velocity = move_and_slide(velocity)
+	
+	if Input.is_action_just_pressed("attack"):
+		state = ATTACK
+
+func attack_state(delta):
+	animationState.travel("Attack")
+
+func attack_animation_finished():
+	velocity = Vector2.ZERO
+	state = MOVE

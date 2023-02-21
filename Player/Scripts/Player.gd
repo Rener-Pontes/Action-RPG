@@ -10,6 +10,8 @@ const FRICTION:int = 500
 # Declare member variables here. Examples:
 var velocity:Vector2 = Vector2.ZERO
 
+onready var animationPlayer:AnimationPlayer = $AnimationPlayer
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,7 +28,12 @@ func _process(delta):
 
 	if input_vector != Vector2.ZERO:
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELARATION * delta)
+		if input_vector.y < 0:
+			animationPlayer.play("RunUp")
+		else:
+			animationPlayer.play("RunDown")
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
+		animationPlayer.play("IdleDown")
 
 	velocity = move_and_slide(velocity)

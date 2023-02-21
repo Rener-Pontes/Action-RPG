@@ -3,8 +3,8 @@ extends KinematicBody2D
 
 # Declare member constants here.
 const MAX_SPEED:int = 100
-const ACCELARATION:int = 400
-const FRICTION:int = 400
+const ACCELARATION:int = 500 
+const FRICTION:int = 500
 
 
 # Declare member variables here. Examples:
@@ -25,8 +25,7 @@ func _process(delta):
 	input_vector = input_vector.normalized()
 
 	if input_vector != Vector2.ZERO:
-		velocity += input_vector * ACCELARATION * delta
-		velocity = velocity.clamped(MAX_SPEED)
+		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELARATION * delta)
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, FRICTION * delta)
 

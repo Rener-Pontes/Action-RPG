@@ -20,6 +20,7 @@ var velocity = Vector2.ZERO
 var roll_vector = Vector2.DOWN
 var state = MOVE
 
+onready var swordHitbox = $HitboxPivot/SwordHitbox
 onready var animationPlayer = $AnimationPlayer
 onready var animationTree = $AnimationTree
 onready var animationState = animationTree.get("parameters/playback")
@@ -28,6 +29,7 @@ onready var animationState = animationTree.get("parameters/playback")
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	animationTree.active = true
+	swordHitbox.knockback_vector = roll_vector
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -52,6 +54,7 @@ func move_state(delta):
 		velocity = velocity.move_toward(input_vector * MAX_SPEED, ACCELARATION * delta)
 		
 		roll_vector = input_vector
+		swordHitbox.knockback_vector = input_vector
 		
 		animationTree.set("parameters/Idle/blend_position", input_vector)
 		animationTree.set("parameters/Run/blend_position", input_vector)

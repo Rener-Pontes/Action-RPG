@@ -7,7 +7,6 @@ export (int) var  ACCELARATION = 500 	# It behavies like a constante
 export (int) var  FRICTION = 500		# It behavies like a constante
 export (int) var  ROLL_SPEED = 120		# It behavies like a constante
 
-
 enum {
 	MOVE,
 	ROLL,

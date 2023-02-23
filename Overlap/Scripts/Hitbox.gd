@@ -1,8 +1,8 @@
-extends "res://Overlap/Scripts/Hitbox.gd"
+extends Area2D
 
 
 # Declare member variables here. Examples:
-var knockback_vector = Vector2.ZERO
+export (int) var damage = 1
 
 
 # Called when the node enters the scene tree for the first time.

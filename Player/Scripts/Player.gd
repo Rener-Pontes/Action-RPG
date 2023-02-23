@@ -2,10 +2,10 @@ extends KinematicBody2D
 
 
 # Declare member constants here.
-const MAX_SPEED = 80
-const ACCELARATION = 500 
-const FRICTION = 500
-const ROLL_SPEED = 120
+export (int) var  MAX_SPEED = 80		# It behavies like a constante
+export (int) var  ACCELARATION = 500 	# It behavies like a constante
+export (int) var  FRICTION = 500		# It behavies like a constante
+export (int) var  ROLL_SPEED = 120		# It behavies like a constante
 
 
 enum {

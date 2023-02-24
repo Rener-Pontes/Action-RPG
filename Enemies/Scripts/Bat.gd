@@ -23,6 +23,7 @@ onready var stats = $Stats
 onready var playerDetector = $PlayerDetector
 onready var animatedSprite = $AnimatedSprite
 onready var hurtbox = $Hurtbox
+onready var softCollision = $SoftCollision
 
 
 # Called when the node enters the scene tree for the first time.
@@ -48,6 +49,9 @@ func _physics_process(delta):
 				velocity = velocity.move_toward(target * MAX_SPEED, ACCELARATION * delta)
 			else:
 				state = IDLE
+	
+	if softCollision.is_colliding():
+		velocity += softCollision.get_push_vector() * delta * 400
 	
 	animatedSprite.flip_h = velocity.x < 0
 	

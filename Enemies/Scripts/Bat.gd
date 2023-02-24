@@ -22,6 +22,7 @@ var state = IDLE
 onready var stats = $Stats
 onready var playerDetector = $PlayerDetector
 onready var animatedSprite = $AnimatedSprite
+onready var hurtbox = $Hurtbox
 
 
 # Called when the node enters the scene tree for the first time.
@@ -61,6 +62,7 @@ func seek_player():
 
 func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
+	hurtbox.create_hit_effect()
 	knockback = area.knockback_vector * 120
 
 

@@ -6,7 +6,9 @@ const HIT_EFFECT = preload("res://Effects/Scenes/HitEffect.tscn")
 
 # Declare member variables here. Examples:
 var invincible = false setget set_invincible
+
 onready var timer = $Timer
+onready var collisionShape = $CollisionShape2D
 
 
 signal invincibility_started
@@ -40,8 +42,8 @@ func _on_Timer_timeout():
 
 
 func _on_Hurtbox_invincibility_started():
-	set_deferred("monitoring", false)
+	collisionShape.set_deferred("disabled", true)
 
 
 func _on_Hurtbox_invincibility_ended():
-	set_deferred("monitoring", true)
+	collisionShape.set_deferred("disabled", false)

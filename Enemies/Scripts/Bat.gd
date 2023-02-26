@@ -26,6 +26,7 @@ onready var animatedSprite = $AnimatedSprite
 onready var hurtbox = $Hurtbox
 onready var softCollision = $SoftCollision
 onready var wanderController = $WanderController
+onready var animationPlayer = $AnimationPlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -97,6 +98,7 @@ func _on_Hurtbox_area_entered(area):
 	stats.health -= area.damage
 	hurtbox.create_hit_effect()
 	knockback = area.knockback_vector * 120
+	hurtbox.start_invincibility(.4)
 
 
 func _on_no_health():
@@ -106,3 +108,11 @@ func _on_no_health():
 	deathEffectInstance.global_position = global_position
 	
 	queue_free()
+
+
+func _on_Hurtbox_invincibility_started():
+	animationPlayer.play("Start")
+
+
+func _on_Hurtbox_invincibility_ended():
+	animationPlayer.play("Stop")

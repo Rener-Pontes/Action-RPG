@@ -59,6 +59,11 @@ Right={
 ]
 }
 
+[layer_names]
+
+2d_physics/layer_9="Hitboxes"
+2d_physics/layer_10="Hurtboxes"
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
